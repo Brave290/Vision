@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BraveVision · speak through design</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&family=Space+Grotesk:wght@300..700&family=Clash+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #2563EB;
+      --secondary: #0D1117;
+      --accent: #22D3EE;
+      --text: #E5E7EB;
+      --bg: #0D1117;
+      --card-bg: rgba(255,255,255,0.04);
+      --glass-border: rgba(34,211,238,0.2);
+      --shadow: 0 20px 35px -8px rgba(0,0,0,0.7);
+      --font-heading: 'Clash Display', sans-serif;
+      --font-body: 'Space Grotesk', 'Inter', sans-serif;
+      --creator-accent: #c084fc;
+      --creator-glow: rgba(192, 132, 252, 0.5);
+      --contact-accent: #f97316;
+      --contact-glow: rgba(249, 115, 22, 0.5);
+      --telegram-accent: #0088cc;
+      --telegram-glow: rgba(0, 136, 204, 0.5);
+      --counter-accent: #22D3EE;
+      --counter-glow: rgba(34, 211, 238, 0.5);
+    }
+
+    body.light {
+      --bg: #f6f9fc;
+      --text: #0b1a2e;
+      --secondary: #eef2f6;
+      --card-bg: rgba(0,0,0,0.02);
+      --glass-border: rgba(37,99,235,0.3);
+      --shadow: 0 20px 35px -8px rgba(0,0,0,0.15);
+      --creator-accent: #9333ea;
+      --creator-glow: rgba(147, 51, 234, 0.3);
+      --contact-accent: #ea580c;
+      --contact-glow: rgba(234, 88, 12, 0.3);
+      --telegram-accent: #006699;
+      --telegram-glow: rgba(0, 102, 153, 0.3);
+      --counter-accent: #2563EB;
+      --counter-glow: rgba(37, 99, 235, 0.3);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      transition: background 0.3s, color 0.2s;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    h1, h2, h3, .logo-text {
+      font-family: var(--font-heading);
+      font-weight: 600;
+    }
+
+    /* glassmorphic header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 32px;
+      position: fixed;
+      width: 100%;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(18px) saturate(200%);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--glass-border);
+      z-index: 1000;
+    }
+    body.light header {
+      background: rgba(255,255,255,0.75);
+      border-bottom-color: rgba(34,211,238,0.3);
+    }
+
+    /* Logo container with rounded image */
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+    
+    .logo-img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 15px var(--accent);
+      transition: transform 0.3s ease;
+    }
+    
+    .logo-img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 25px var(--accent);
+    }
+    
+    .logo-text {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(130deg, #22D3EE, #3b82f6, #a855f7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+      text-shadow: 0 0 15px rgba(34,211,238,0.6);
+    }
+
+    nav {
+      display: flex;
+      gap: 32px;
+    }
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.1rem;
+      position: relative;
+      transition: 0.2s;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2.5px;
+      background: var(--accent);
+      left: 0;
+      bottom: -8px;
+      border-radius: 4px;
+      transition: 0.25s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+    nav a:hover::after { width: 100%; }
+    nav a:hover { color: var(--accent); }
+
+    /* menu icons */
+    .menu-icons {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    
+    .hamburger {
+      display: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: var(--accent);
+      transition: 0.2s;
+    }
+    .hamburger:hover { 
+      transform: scale(1.1); 
+      text-shadow: 0 0 12px var(--accent); 
+    }
+    
+    .toggle {
+      cursor: pointer;
+      color: var(--accent);
+      font-size: 1.5rem;
+      background: rgba(255,255,255,0.06);
+      padding: 8px 16px;
+      border-radius: 40px;
+      border: 1px solid var(--glass-border);
+      transition: 0.2s;
+    }
+    .toggle:hover { 
+      background: rgba(34,211,238,0.2); 
+      transform: scale(1.05);
+    }
+
+    /* mobile nav */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 300px;
+      height: 100vh;
+      background: rgba(5, 10, 20, 0.98);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      padding: 35px 30px;
+      transition: 0.4s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      z-index: 1002;
+      border-left: 2px solid var(--accent);
+      box-shadow: -15px 0 40px rgba(0,0,0,0.5);
+    }
+    
+    body.light .mobile-nav {
+      background: rgba(240, 248, 255, 0.98);
+    }
+    
+    .mobile-nav.active { 
+      right: 0; 
+    }
+
+    .close-btn {
+      font-size: 2.2rem;
+      color: var(--accent);
+      cursor: pointer;
+      align-self: flex-end;
+      margin-bottom: 20px;
+      transition: 0.3s;
+    }
+    .close-btn:hover { 
+      transform: rotate(90deg); 
+      color: #ff4444;
+    }
+
+    .mobile-nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1.9rem;
+      font-weight: 500;
+      font-family: var(--font-heading);
+      border-bottom: 1px solid rgba(34,211,238,0.3);
+      padding-bottom: 12px;
+      transition: 0.2s;
+    }
+    .mobile-nav a:hover {
+      color: var(--accent);
+      padding-left: 12px;
+      border-bottom-color: var(--accent);
+    }
+
+    /* Creator profile link special styling */
+    .creator-link {
+      margin-top: auto;
+      color: var(--creator-accent) !important;
+      border-bottom-color: var(--creator-accent) !important;
+      font-size: 1.6rem !important;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .creator-link i {
+      font-size: 1.8rem;
+      color: var(--creator-accent);
+      text-shadow: 0 0 15px var(--creator-glow);
+    }
+    .creator-link:hover {
+      transform: translateX(-5px);
+    }
+
+    /* overlay for mobile menu */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(3px);
+      z-index: 1001;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .overlay.active {
+      display: block;
+      opacity: 1;
+    }
+
+    /* sections */
+    section {
+      padding: 120px 30px;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex-direction: column;
+      padding-top: 150px;
+    }
+    .hero h1 {
+      font-size: clamp(3rem, 9vw, 5.8rem);
+      font-weight: 700;
+      line-height: 1.05;
+      background: linear-gradient(135deg, #22D3EE, #2563EB, #c084fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 35px rgba(34,211,238,0.3);
+    }
+    .hero p {
+      font-size: 1.6rem;
+      margin: 30px 0 40px;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+    .btn-group { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+
+    .btn {
+      padding: 16px 42px;
+      border: none;
+      border-radius: 60px;
+      background: transparent;
+      color: var(--accent);
+      border: 1.8px solid var(--accent);
+      box-shadow: 0 0 15px var(--accent);
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: 0.25s;
+      backdrop-filter: blur(8px);
+      font-family: var(--font-body);
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #0b1622;
+      border: none;
+      box-shadow: 0 0 30px var(--accent);
+    }
+    .btn-primary:hover { background: #3b82f6; color: white; box-shadow: 0 0 45px #3b82f6; }
+    .btn:hover { transform: scale(1.07) translateY(-4px); box-shadow: 0 0 35px var(--accent); }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 70px;
+    }
+    .section-header h2 {
+      font-size: 3.4rem;
+      background: linear-gradient(130deg, var(--accent), var(--primary), #e879f9);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+    .section-header p { font-size: 1.3rem; opacity: 0.7; }
+
+    /* service cards */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 35px;
+    }
+    .card {
+      background: var(--card-bg);
+      padding: 50px 25px;
+      border-radius: 32px;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      transition: 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .card i {
+      font-size: 3.5rem;
+      color: var(--accent);
+      margin-bottom: 25px;
+      text-shadow: 0 0 25px var(--accent);
+    }
+    .card h3 { font-size: 2rem; margin-bottom: 12px; }
+    .card p { opacity: 0.7; font-size: 1rem; }
+    .card:hover {
+      transform: translateY(-20px) scale(1.02);
+      border-color: var(--accent);
+      box-shadow: 0 35px 50px -12px var(--accent);
+    }
+
+    /* ========== ANIMATED COUNTERS SECTION ========== */
+    .counter-section {
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      border-radius: 80px;
+      padding: 60px;
+      margin: 60px 0;
+      border: 2px solid var(--counter-accent);
+      box-shadow: 0 0 50px var(--counter-glow);
+    }
+
+    .counter-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      text-align: center;
+    }
+
+    .counter-item {
+      padding: 30px;
+      background: rgba(34, 211, 238, 0.05);
+      border-radius: 50px;
+      transition: all 0.4s ease;
+      border: 1px solid rgba(34, 211, 238, 0.2);
+    }
+
+    .counter-item:hover {
+      transform: translateY(-15px);
+      background: rgba(34, 211, 238, 0.1);
+      border-color: var(--counter-accent);
+      box-shadow: 0 0 40px var(--counter-glow);
+    }
+
+    .counter-icon {
+      font-size: 3.5rem;
+      color: var(--counter-accent);
+      margin-bottom: 20px;
+      text-shadow: 0 0 30px var(--counter-glow);
+    }
+
+    .counter-number {
+      font-size: 4.5rem;
+      font-weight: 700;
+      color: var(--counter-accent);
+      font-family: var(--font-heading);
+      line-height: 1.2;
+      text-shadow: 0 0 20px var(--counter-glow);
+    }
+
+    .counter-label {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      margin-top: 10px;
+      letter-spacing: 1px;
+    }
+
+    .counter-plus {
+      font-size: 3rem;
+      color: var(--counter-accent);
+      opacity: 0.7;
+      margin-left: 5px;
+    }
+
+    /* ========== LIVE VISITOR COUNTER ========== */
+    .visitor-counter {
+      position: fixed;
+      bottom: 100px;
+      left: 30px;
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      border: 2px solid var(--accent);
+      border-radius: 60px;
+      padding: 15px 25px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 0 30px var(--accent);
+      z-index: 998;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .visitor-dot {
+      width: 12px;
+      height: 12px;
+      background: #22c55e;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    }
+
+    .visitor-count {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .visitor-text {
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    /* ========== NEWSLETTER SECTION ========== */
+    .newsletter-section {
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      border-radius: 80px;
+      padding: 70px;
+      margin: 60px 0;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 50px var(--accent);
+      text-align: center;
+    }
+
+    .newsletter-icon {
+      font-size: 4rem;
+      color: var(--accent);
+      margin-bottom: 20px;
+      text-shadow: 0 0 30px var(--accent);
+      animation: shake 3s ease-in-out infinite;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: rotate(0deg); }
+      10% { transform: rotate(15deg); }
+      20% { transform: rotate(-15deg); }
+      30% { transform: rotate(10deg); }
+      40% { transform: rotate(-10deg); }
+      50% { transform: rotate(5deg); }
+      60% { transform: rotate(0deg); }
+    }
+
+    .newsletter-title {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, var(--accent), #3b82f6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .newsletter-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.8;
+      margin-bottom: 40px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .newsletter-form {
+      max-width: 500px;
+      margin: 0 auto;
+      display: flex;
+      gap: 15px;
+    }
+
+    .newsletter-input {
+      flex: 1;
+      padding: 18px 25px;
+      background: rgba(0,0,0,0.2);
+      border: 2px solid var(--accent);
+      border-radius: 60px;
+      color: var(--text);
+      font-size: 1rem;
+      font-family: var(--font-body);
+      transition: 0.3s;
+    }
+
+    .newsletter-input:focus {
+      outline: none;
+      box-shadow: 0 0 30px var(--accent);
+      background: rgba(34, 211, 238, 0.1);
+    }
+
+    .newsletter-btn {
+      padding: 18px 35px;
+      background: var(--accent);
+      color: #0b1622;
+      border: none;
+      border-radius: 60px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .newsletter-btn:hover {
+      background: #3b82f6;
+      color: white;
+      transform: scale(1.05);
+      box-shadow: 0 0 30px var(--accent);
+    }
+
+    .newsletter-checkbox {
+      margin-top: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .newsletter-checkbox input {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: var(--accent);
+    }
+
+    /* HIDDEN CONTACT SECTION */
+    .contact-hidden {
+      position: relative;
+      margin: 40px auto;
+      max-width: 800px;
+    }
+
+    .contact-reveal-btn {
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      border: 2px solid var(--contact-accent);
+      border-radius: 100px;
+      padding: 30px 50px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 0 30px var(--contact-glow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-reveal-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, var(--contact-glow), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .contact-reveal-btn:hover::before {
+      left: 100%;
+    }
+
+    .contact-reveal-btn:hover {
+      transform: scale(1.05);
+      border-color: var(--contact-accent);
+      box-shadow: 0 0 50px var(--contact-glow);
+    }
+
+    .contact-reveal-btn i {
+      font-size: 4rem;
+      color: var(--contact-accent);
+      margin-bottom: 20px;
+      text-shadow: 0 0 30px var(--contact-glow);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+    }
+
+    .contact-reveal-btn h3 {
+      font-size: 2.5rem;
+      color: var(--contact-accent);
+      margin-bottom: 15px;
+    }
+
+    .contact-reveal-btn p {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .contact-reveal-btn .chevron {
+      font-size: 2rem;
+      animation: bounce 1.5s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(10px); }
+    }
+
+    /* Hidden Contact Form Container */
+    .contact-container-wrapper {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.8s ease-in-out, opacity 0.5s ease-in-out, margin 0.5s ease;
+      margin-top: 0;
+    }
+
+    .contact-container-wrapper.active {
+      max-height: 2000px;
+      opacity: 1;
+      margin-top: 40px;
+    }
+
+    .contact-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 45px;
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      border-radius: 50px;
+      padding: 60px;
+      border: 2px solid var(--contact-accent);
+      box-shadow: 0 0 60px var(--contact-glow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, var(--contact-glow) 0%, transparent 70%);
+      opacity: 0.2;
+      animation: rotate 20s linear infinite;
+      z-index: -1;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .contact-info i { 
+      color: var(--contact-accent); 
+      width: 35px; 
+      font-size: 1.3rem; 
+    }
+    
+    .contact-info p {
+      margin: 18px 0;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      line-height: 1.4;
+    }
+    
+    .contact-info a {
+      color: var(--text);
+      text-decoration: none;
+      transition: 0.2s;
+      font-size: 1.1rem;
+    }
+    
+    .contact-info a:hover {
+      color: var(--contact-accent);
+      transform: translateX(5px);
+    }
+
+    .contact-form {
+      max-width: 360px;
+      margin-left: auto;
+      margin-right: 0;
+      width: 100%;
+    }
+    
+    .contact-form input, .contact-form textarea {
+      width: 100%;
+      padding: 12px 18px;
+      margin-bottom: 15px;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid var(--contact-accent);
+      border-radius: 40px;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-family: var(--font-body);
+      transition: 0.2s;
+    }
+    
+    .contact-form input:focus, .contact-form textarea:focus {
+      border-color: var(--contact-accent);
+      outline: none;
+      box-shadow: 0 0 15px var(--contact-glow);
+    }
+    
+    .contact-form textarea {
+      border-radius: 25px;
+      resize: vertical;
+      min-height: 90px;
+    }
+    
+    .contact-form button {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 1rem;
+      border-radius: 40px;
+      background: var(--contact-accent);
+      color: #0b1622;
+      border: none;
+      box-shadow: 0 0 20px var(--contact-glow);
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+    
+    .contact-form button:hover {
+      background: #fb923c;
+      color: white;
+      box-shadow: 0 0 35px var(--contact-glow);
+      transform: scale(1.02);
+    }
+    
+    .form-note {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      opacity: 0.7;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .close-contact {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(249, 115, 22, 0.2);
+      color: var(--contact-accent);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      border: 1px solid var(--contact-accent);
+      transition: 0.3s ease;
+      z-index: 10;
+    }
+
+    .close-contact:hover {
+      background: var(--contact-accent);
+      color: #0b1622;
+      transform: rotate(90deg);
+    }
+
+    /* Creator Profile Page */
+    .creator-page {
+      min-height: 100vh;
+      padding-top: 120px;
+      padding-bottom: 80px;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    
+    .creator-page.active {
+      display: block;
+      opacity: 1;
+    }
+    
+    .main-content.hidden {
+      display: none;
+    }
+    
+    .creator-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border-radius: 60px;
+      padding: 60px;
+      border: 2px solid var(--creator-accent);
+      box-shadow: 0 0 60px var(--creator-glow);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .creator-container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, var(--creator-glow) 0%, transparent 70%);
+      opacity: 0.3;
+      animation: rotate 20s linear infinite;
+      z-index: -1;
+    }
+    
+    .creator-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    
+    .creator-header h2 {
+      font-size: 3.8rem;
+      background: linear-gradient(135deg, #22D3EE, #c084fc, #f0abfc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 20px;
+      text-shadow: 0 0 30px var(--creator-glow);
+    }
+    
+    .creator-header p {
+      font-size: 1.4rem;
+      opacity: 0.9;
+      color: var(--creator-accent);
+    }
+    
+    .creator-content {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 50px;
+      align-items: start;
+    }
+    
+    .creator-image {
+      position: relative;
+      border-radius: 40px;
+      overflow: hidden;
+      border: 4px solid var(--creator-accent);
+      box-shadow: 0 0 40px var(--creator-glow);
+      transition: transform 0.4s ease;
+    }
+    
+    .creator-image:hover {
+      transform: scale(1.02) rotate(1deg);
+    }
+    
+    .creator-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    
+    .creator-image:hover img {
+      transform: scale(1.1);
+    }
+    
+    .creator-image::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent 60%, var(--creator-glow));
+      pointer-events: none;
+    }
+    
+    .creator-bio {
+      padding: 20px 0;
+    }
+    
+    .creator-bio p {
+      font-size: 1.3rem;
+      line-height: 1.8;
+      margin-bottom: 30px;
+      position: relative;
+      padding-left: 25px;
+      border-left: 4px solid var(--creator-accent);
+    }
+    
+    .creator-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      margin: 40px 0;
+    }
+    
+    .stat-item {
+      text-align: center;
+      padding: 25px 15px;
+      background: rgba(192, 132, 252, 0.1);
+      border-radius: 30px;
+      border: 1px solid var(--creator-accent);
+      transition: 0.3s ease;
+    }
+    
+    .stat-item:hover {
+      transform: translateY(-10px);
+      background: rgba(192, 132, 252, 0.2);
+      box-shadow: 0 0 30px var(--creator-glow);
+    }
+    
+    .stat-item i {
+      font-size: 2.8rem;
+      color: var(--creator-accent);
+      margin-bottom: 15px;
+      text-shadow: 0 0 20px var(--creator-glow);
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--creator-accent);
+      font-family: var(--font-heading);
+    }
+    
+    .stat-label {
+      font-size: 1rem;
+      opacity: 0.8;
+      margin-top: 8px;
+    }
+    
+    .creator-contact-info {
+      background: rgba(192, 132, 252, 0.1);
+      border-radius: 30px;
+      padding: 30px;
+      margin-top: 30px;
+      border: 1px solid var(--creator-accent);
+    }
+    
+    .creator-contact-info h3 {
+      font-size: 1.8rem;
+      color: var(--creator-accent);
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .creator-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 15px 20px;
+      margin: 10px 0;
+      background: rgba(0,0,0,0.2);
+      border-radius: 20px;
+      transition: 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .creator-contact-item:hover {
+      background: rgba(192, 132, 252, 0.2);
+      transform: translateX(10px);
+    }
+    
+    .creator-contact-item i {
+      font-size: 1.8rem;
+      color: var(--creator-accent);
+      width: 40px;
+      text-align: center;
+    }
+    
+    .creator-contact-item span {
+      font-size: 1.2rem;
+    }
+    
+    .creator-contact-item a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1.1rem;
+    }
+    
+    .back-to-home {
+      margin-top: 40px;
+      text-align: center;
+    }
+    
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 15px;
+      padding: 18px 40px;
+      background: transparent;
+      border: 2px solid var(--creator-accent);
+      border-radius: 50px;
+      color: var(--creator-accent);
+      font-size: 1.3rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s ease;
+      text-decoration: none;
+    }
+    
+    .back-btn:hover {
+      background: var(--creator-accent);
+      color: #0b1622;
+      transform: scale(1.05);
+      box-shadow: 0 0 40px var(--creator-glow);
+    }
+    
+    .back-btn i {
+      font-size: 1.5rem;
+    }
+
+    /* Telegram Widget Styles */
+    .telegram-direct {
+      margin-top: 40px;
+      border-top: 2px solid rgba(0,136,204,0.3);
+      padding-top: 30px;
+    }
+
+    .telegram-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .telegram-header i {
+      font-size: 2.5rem;
+      color: var(--telegram-accent);
+      filter: drop-shadow(0 0 15px var(--telegram-glow));
+    }
+
+    .telegram-header h4 {
+      font-size: 1.5rem;
+      color: var(--telegram-accent);
+    }
+
+    .telegram-input {
+      background: rgba(0,136,204,0.05);
+      border: 2px solid var(--telegram-accent);
+      border-radius: 30px;
+      padding: 15px 20px;
+      width: 100%;
+      color: var(--text);
+      font-size: 1rem;
+      margin-bottom: 15px;
+      transition: 0.3s;
+    }
+
+    .telegram-input:focus {
+      outline: none;
+      box-shadow: 0 0 30px var(--telegram-glow);
+      background: rgba(0,136,204,0.1);
+    }
+
+    .telegram-btn {
+      background: var(--telegram-accent);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 15px 30px;
+      width: 100%;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .telegram-btn:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px var(--telegram-glow);
+      background: #0099ff;
+    }
+
+    .telegram-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .telegram-status {
+      font-size: 0.85rem;
+      margin-top: 10px;
+      color: var(--telegram-accent);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      background: var(--secondary);
+      border-top: 1px solid var(--glass-border);
+      font-size: 1rem;
+    }
+
+    .whatsapp {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #25D366;
+      color: white;
+      padding: 18px 22px;
+      border-radius: 60px;
+      font-size: 28px;
+      box-shadow: 0 8px 25px #25D366;
+      transition: 0.25s;
+      z-index: 999;
+      line-height: 0;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .whatsapp:hover { 
+      transform: scale(1.18) rotate(5deg); 
+      background: #20bd5a;
+      box-shadow: 0 12px 35px #25D366;
+    }
+
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      background: var(--accent);
+      color: #0b1622;
+      padding: 12px 22px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      z-index: 1000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: 0.3s;
+    }
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Loading animation */
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .fa-spinner {
+      animation: spin 1s linear infinite;
+    }
+
+    /* responsive */
+    @media (max-width: 900px) {
+      .contact-container { 
+        grid-template-columns: 1fr; 
+        padding: 40px 30px;
+      }
+      .contact-form { 
+        max-width: 100%; 
+        margin: 0 auto; 
+      }
+      .contact-info p {
+        font-size: 1rem;
+      }
+      .creator-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      .creator-image {
+        max-width: 400px;
+        margin: 0 auto;
+      }
+      .creator-stats {
+        grid-template-columns: 1fr;
+      }
+      .counter-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .counter-number {
+        font-size: 3.5rem;
+      }
+      .newsletter-form {
+        flex-direction: column;
+      }
+      .newsletter-btn {
+        width: 100%;
+        justify-content: center;
+      }
+      .visitor-counter {
+        bottom: 90px;
+        left: 20px;
+        padding: 10px 15px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      nav { display: none; }
+      .hamburger { display: inline-block; }
+      header { padding: 18px 20px; }
+      .logo-text { font-size: 1.4rem; }
+      .logo-img { width: 40px; height: 40px; }
+      section { padding: 100px 20px; }
+      .section-header h2 { font-size: 2.5rem; }
+      .hero p { font-size: 1.3rem; }
+      .whatsapp {
+        bottom: 20px;
+        right: 20px;
+        padding: 15px 18px;
+        font-size: 24px;
+      }
+      .creator-container {
+        padding: 30px 20px;
+      }
+      .creator-header h2 {
+        font-size: 2.5rem;
+      }
+      .creator-bio p {
+        font-size: 1.1rem;
+      }
+      .contact-reveal-btn {
+        padding: 20px 30px;
+      }
+      .contact-reveal-btn h3 {
+        font-size: 1.8rem;
+      }
+      .contact-reveal-btn p {
+        font-size: 1rem;
+      }
+      .newsletter-section {
+        padding: 40px 20px;
+      }
+      .newsletter-title {
+        font-size: 2rem;
+      }
+    }
+
+    /* Image loading optimization */
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <!-- Overlay for mobile menu -->
+  <div class="overlay" id="overlay"></div>
+  
+  <!-- Toast notification -->
+  <div class="toast" id="toast">Message sent! 📧</div>
+
+  <!-- LIVE VISITOR COUNTER (Feature #6) -->
+  <div class="visitor-counter" id="visitorCounter">
+    <div class="visitor-dot"></div>
+    <div>
+      <span class="visitor-count" id="visitorCount">127</span>
+      <span class="visitor-text">designers viewing</span>
+    </div>
+  </div>
+
+  <header>
+    <div class="logo-container" onclick="showMainContent()">
+      <img src="https://image2url.com/r2/default/images/1773866125912-9278f0fc-116c-4a9c-a40e-2efcedea9f4d.png" alt="BraveVision Logo" class="logo-img" loading="eager" onerror="this.style.display='none';">
+      <span class="logo-text">BraveVision</span>
+    </div>
+    <nav>
+      <a href="#" onclick="showMainContent(); scrollToSection('home')">Home</a>
+      <a href="#" onclick="showMainContent(); scrollToSection('about')">About</a>
+      <a href="#" onclick="showMainContent(); scrollToSection('services')">Services</a>
+      <a href="#" onclick="showMainContent(); scrollToSection('contact')">Contact</a>
+    </nav>
+    <div class="menu-icons">
+      <i class="fas fa-bars hamburger" id="hamburgerBtn"></i>
+      <div class="toggle" id="themeToggle"><i class="fas fa-moon"></i></div>
+    </div>
+  </header>
+
+  <!-- mobile nav -->
+  <div class="mobile-nav" id="mobileNav">
+    <i class="fas fa-times close-btn" id="closeNavBtn"></i>
+    <a href="#" onclick="showMainContent(); scrollToSection('home'); closeMenu()">Home</a>
+    <a href="#" onclick="showMainContent(); scrollToSection('about'); closeMenu()">About</a>
+    <a href="#" onclick="showMainContent(); scrollToSection('services'); closeMenu()">Services</a>
+    <a href="#" onclick="showMainContent(); scrollToSection('contact'); closeMenu()">Contact</a>
+    <!-- Hidden Creator Profile Link (only visible in hamburger) -->
+    <a href="#" class="creator-link" onclick="showCreatorProfile(); closeMenu()">
+      <i class="fas fa-user-astronaut"></i> Creator Profile
+    </a>
+  </div>
+
+  <!-- MAIN CONTENT (shown by default) -->
+  <div class="main-content" id="mainContent">
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <h1>BraveVision Graphics</h1>
+      <p>Design That Speaks Before You Do</p>
+      <div class="btn-group">
+        <a href="#" onclick="scrollToSection('contact'); setTimeout(() => toggleContact(true), 500)" class="btn btn-primary">Start Your Project</a>
+        <a href="#" onclick="scrollToSection('contact'); setTimeout(() => toggleContact(true), 500)" class="btn">Contact Us</a>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-header">
+        <h2>About BraveVision</h2>
+        <p>We don't just design — we tell your brand's story.</p>
+      </div>
+      <div style="display: flex; justify-content: center; background: var(--card-bg); backdrop-filter: blur(14px); border-radius: 70px; padding: 60px; border:1px solid var(--glass-border);">
+        <p style="max-width: 800px; font-size: 1.6rem; text-align: center;">Bold visuals, timeless identity. From logos to social media, we craft designs that connect instantly. Based on clarity and emotion.</p>
+      </div>
+    </section>
+
+    <!-- ANIMATED COUNTERS SECTION (Feature #12) -->
+    <section id="counters">
+      <div class="counter-section">
+        <div class="counter-grid">
+          <div class="counter-item">
+            <i class="fas fa-calendar-alt counter-icon"></i>
+            <div>
+              <span class="counter-number" id="counter1" data-target="2020">0</span>
+            </div>
+            <div class="counter-label">Founded</div>
+          </div>
+          
+          <div class="counter-item">
+            <i class="fas fa-project-diagram counter-icon"></i>
+            <div>
+              <span class="counter-number" id="counter2" data-target="100">0</span>
+              <span class="counter-plus">+</span>
+            </div>
+            <div class="counter-label">Projects Completed</div>
+          </div>
+          
+          <div class="counter-item">
+            <i class="fas fa-smile counter-icon"></i>
+            <div>
+              <span class="counter-number" id="counter3" data-target="100">0</span>
+              <span class="counter-plus">%</span>
+            </div>
+            <div class="counter-label">Client Satisfaction</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+      <div class="section-header">
+        <h2>Services</h2>
+        <p>Professional design solutions</p>
+      </div>
+      <div class="grid">
+        <div class="card"><i class="fas fa-pen-fancy"></i><h3>Logo Design</h3><p>Unique brand marks that tell your story</p></div>
+        <div class="card"><i class="fas fa-id-card"></i><h3>Business Cards</h3><p>Leave a lasting impression</p></div>
+        <div class="card"><i class="fas fa-image"></i><h3>Flyers</h3><p>Print & digital ready designs</p></div>
+        <div class="card"><i class="fas fa-share-alt"></i><h3>Social Media</h3><p>Engaging posts & covers</p></div>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER SECTION (Feature #4) - Now sends to Telegram -->
+    <section id="newsletter">
+      <div class="newsletter-section">
+        <i class="fas fa-envelope-open-text newsletter-icon"></i>
+        <h2 class="newsletter-title">Get Design Tips & Offers</h2>
+        <p class="newsletter-subtitle">Subscribe to our monthly newsletter and receive free design resources, tips, and exclusive offers.</p>
+        
+        <form id="newsletterForm" class="newsletter-form">
+          <input type="email" id="newsletterEmail" class="newsletter-input" placeholder="Your email address" required>
+          <button type="submit" class="newsletter-btn">
+            <i class="fas fa-paper-plane"></i> Subscribe
+          </button>
+        </form>
+        
+        <div class="newsletter-checkbox">
+          <input type="checkbox" id="privacyConsent" checked>
+          <label for="privacyConsent">I agree to receive newsletters and accept the privacy policy</label>
+        </div>
+        
+        <p style="font-size: 0.8rem; opacity: 0.5; margin-top: 20px;">
+          <i class="fas fa-shield-alt"></i> We never spam. Unsubscribe anytime.
+        </p>
+      </div>
+    </section>
+
+    <!-- HIDDEN CONTACT SECTION -->
+    <section id="contact">
+      <div class="section-header">
+        <h2>Let's connect</h2>
+        <p>Reach out via your favorite channel</p>
+      </div>
+      
+      <div class="contact-hidden">
+        <!-- Reveal Button -->
+        <div class="contact-reveal-btn" id="contactRevealBtn" onclick="toggleContact()">
+          <i class="fas fa-comment-dots"></i>
+          <h3>Open Contact Portal</h3>
+          <p>
+            <i class="fas fa-envelope"></i>
+            <i class="fab fa-whatsapp"></i>
+            <i class="fab fa-telegram"></i>
+            <span class="chevron"><i class="fas fa-chevron-down"></i></span>
+          </p>
+        </div>
+
+        <!-- Hidden Contact Form Container -->
+        <div class="contact-container-wrapper" id="contactContainer">
+          <div class="contact-container">
+            <div class="close-contact" onclick="toggleContact(false)">
+              <i class="fas fa-times"></i>
+            </div>
+            
+            <div class="contact-info">
+              <p>
+                <i class="fas fa-envelope"></i>
+                <a href="mailto:legateakanjimusab@gmail.com">legateakanjimusab@gmail.com</a>
+              </p>
+              <p>
+                <i class="fab fa-telegram-plane"></i>
+                <a href="https://t.me/saheedbidemi" target="_blank">@saheedbidemi</a>
+              </p>
+              <p>
+                <i class="fab fa-whatsapp"></i>
+                <a href="https://wa.me/2349151186880" target="_blank">+234 915 118 6880</a>
+              </p>
+              <p style="margin-top: 30px;">
+                <i class="fas fa-globe"></i> Available 24/7
+              </p>
+            </div>
+            
+            <div class="contact-form">
+              <form id="contactForm">
+                <input type="text" id="name" placeholder="Your name" required>
+                <input type="email" id="email" placeholder="Your email" required>
+                <textarea id="message" rows="3" placeholder="Tell us about your project..." required></textarea>
+                <button type="submit" id="sendEmailBtn">Send message → Gmail</button>
+              </form>
+              <div class="form-note">
+                <i class="fa-regular fa-envelope"></i> opens your default email app
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- CREATOR PROFILE PAGE (hidden by default) -->
+  <div class="creator-page" id="creatorPage">
+    <div class="creator-container">
+      <div class="creator-header">
+        <h2>👨‍🚀 Creator Profile</h2>
+        <p>The visionary behind BraveVision</p>
+      </div>
+      
+      <div class="creator-content">
+        <div class="creator-image">
+          <img src="https://i.ibb.co/nqqbkQWY/IMG-20250404-WA0021.jpg" alt="Akanji Mus'ab - Founder of BraveVision" loading="lazy">
+        </div>
+        
+        <div class="creator-bio">
+          <p>
+            <i class="fas fa-quote-left" style="color: var(--creator-accent); font-size: 2rem; opacity: 0.5; margin-right: 10px;"></i>
+            Akanji Mus'ab is a graduate of Fountain Comprehensive College and the founder of BraveVision, established in 2020. With a strong passion for technology and digital innovation, he has successfully handled and delivered over 100 projects across various domains, building a reputation for quality, creativity, and reliability.
+          </p>
+          
+          <p>
+            He is dedicated to helping individuals and businesses grow through smart digital solutions and modern design approaches.
+          </p>
+          
+          <div class="creator-stats">
+            <div class="stat-item">
+              <i class="fas fa-calendar-alt"></i>
+              <div class="stat-number">2020</div>
+              <div class="stat-label">Founded</div>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-project-diagram"></i>
+              <div class="stat-number">100+</div>
+              <div class="stat-label">Projects</div>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-smile"></i>
+              <div class="stat-number">100%</div>
+              <div class="stat-label">Satisfaction</div>
+            </div>
+          </div>
+          
+          <div class="creator-contact-info">
+            <h3>
+              <i class="fas fa-star"></i>
+              Direct Contact
+            </h3>
+            
+            <div class="creator-contact-item" onclick="window.location.href='mailto:legateakanjimusab@gmail.com'">
+              <i class="fas fa-envelope"></i>
+              <span>legateakanjimusab@gmail.com</span>
+            </div>
+            
+            <div class="creator-contact-item" onclick="window.open('https://wa.me/2349151186880', '_blank')">
+              <i class="fab fa-whatsapp"></i>
+              <span>+234 915 118 688</span>
+            </div>
+            
+            <div class="creator-contact-item" onclick="window.open('https://t.me/saheedbidemi', '_blank')">
+              <i class="fab fa-telegram"></i>
+              <span>@saheedbidemi</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="back-to-home">
+        <a href="#" onclick="showMainContent()" class="back-btn">
+          <i class="fas fa-arrow-left"></i>
+          Back to BraveVision
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 BraveVision Graphics · Design That Speaks Before You Do</p>
+  </footer>
+
+  <!-- WhatsApp Button -->
+  <a href="https://wa.me/2349151186880?text=Hello%20BraveVision!%20I'm%20interested%20in%20your%20design%20services." class="whatsapp" target="_blank" rel="noopener noreferrer">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <script>
+    // Wait for DOM to load
+    document.addEventListener('DOMContentLoaded', function() {
+      
+      // ========== TELEGRAM CONFIGURATION ==========
+      const TELEGRAM_BOT_TOKEN = '8521484711:AAFAdgvqWGwWzrG0hJeTC-2zLUU5nvh-d9o';
+      const TELEGRAM_CHAT_ID = '864191087';
+      
+      // ========== FEATURE #6: LIVE VISITOR COUNTER ==========
+      function updateVisitorCounter() {
+        const visitorCount = document.getElementById('visitorCount');
+        if (!visitorCount) return;
+        
+        // Generate random number between 50-200 for demo
+        const randomVisitors = Math.floor(Math.random() * 150) + 50;
+        visitorCount.textContent = randomVisitors;
+      }
+      
+      // Update every 30 seconds to simulate real-time
+      updateVisitorCounter();
+      setInterval(updateVisitorCounter, 30000);
+      
+      // ========== FEATURE #12: ANIMATED COUNTERS ==========
+      function animateCounter(element, start, end, duration) {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+          if (!startTimestamp) startTimestamp = timestamp;
+          const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+          const currentValue = Math.floor(progress * (end - start) + start);
+          element.textContent = currentValue;
+          if (progress < 1) {
+            window.requestAnimationFrame(step);
+          } else {
+            element.textContent = end;
+          }
+        };
+        window.requestAnimationFrame(step);
+      }
+      
+      // Check if element is in viewport
+      function isInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return (
+          rect.top >= 0 &&
+          rect.left >= 0 &&
+          rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+          rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+      }
+      
+      // Trigger counters when they come into view
+      const counterSection = document.querySelector('.counter-section');
+      const counter1 = document.getElementById('counter1');
+      const counter2 = document.getElementById('counter2');
+      const counter3 = document.getElementById('counter3');
+      
+      let countersAnimated = false;
+      
+      function checkCounters() {
+        if (!countersAnimated && counterSection && isInViewport(counterSection)) {
+          // Get target values from data attributes
+          const target1 = parseInt(counter1.getAttribute('data-target'));
+          const target2 = parseInt(counter2.getAttribute('data-target'));
+          const target3 = parseInt(counter3.getAttribute('data-target'));
+          
+          // Animate from 0 to target
+          animateCounter(counter1, 0, target1, 2000);
+          animateCounter(counter2, 0, target2, 2000);
+          animateCounter(counter3, 0, target3, 2000);
+          
+          countersAnimated = true;
+        }
+      }
+      
+      // Check on scroll
+      window.addEventListener('scroll', checkCounters);
+      // Check on load
+      checkCounters();
+      
+      // ========== FEATURE #4: NEWSLETTER SIGNUP WITH TELEGRAM ==========
+      const newsletterForm = document.getElementById('newsletterForm');
+      
+      if (newsletterForm) {
+        newsletterForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          
+          const email = document.getElementById('newsletterEmail').value.trim();
+          const consent = document.getElementById('privacyConsent').checked;
+          
+          if (!email) {
+            showToast('Please enter your email! 📧');
+            return;
+          }
+          
+          if (!consent) {
+            showToast('Please accept the privacy policy ⚠️');
+            return;
+          }
+          
+          // Simple email validation
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(email)) {
+            showToast('Please enter a valid email! ❌');
+            return;
+          }
+          
+          // Show loading state
+          const btn = newsletterForm.querySelector('button');
+          const originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subscribing...';
+          btn.disabled = true;
+          
+          try {
+            // Get current date and time
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            });
+            const timeStr = now.toLocaleTimeString('en-US', { 
+              hour: '2-digit', 
+              minute: '2-digit' 
+            });
+            
+            // Send to Telegram
+            const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: `📧 *NEW NEWSLETTER SUBSCRIBER*\n\n*Email:* ${email}\n*Date:* ${dateStr}\n*Time:* ${timeStr}\n\n*Consent:* ${consent ? 'Yes ✓' : 'No'}\n\n[Subscribed via BraveVision website]`,
+                parse_mode: 'Markdown'
+              })
+            });
+            
+            const data = await response.json();
+            
+            if (data.ok) {
+              showToast('✅ Subscribed! Check your email for confirmation.');
+              document.getElementById('newsletterEmail').value = '';
+            } else {
+              throw new Error(data.description || 'Failed to subscribe');
+            }
+          } catch (error) {
+            console.error('Newsletter subscription error:', error);
+            showToast('❌ Subscription failed. Please try again.');
+          } finally {
+            // Restore button
+            btn.innerHTML = originalHTML;
+            btn.disabled = false;
+          }
+        });
+      }
+      
+      // ========== TELEGRAM DIRECT MESSAGING ==========
+      // Create Telegram widget in contact info
+      const contactInfo = document.querySelector('.contact-info');
+      if (contactInfo) {
+        const telegramDiv = document.createElement('div');
+        telegramDiv.className = 'telegram-direct';
+        telegramDiv.innerHTML = `
+          <div class="telegram-header">
+            <i class="fab fa-telegram"></i>
+            <h4>Quick Telegram Message</h4>
+          </div>
+          <textarea id="telegramMessage" class="telegram-input" placeholder="Type your message here..." rows="2"></textarea>
+          <button id="sendTelegramBtn" class="telegram-btn">
+            <i class="fab fa-telegram"></i> Send to Founder's Telegram
+          </button>
+          <div class="telegram-status">
+            <i class="fas fa-shield-alt"></i> Messages go directly to Akanji's Telegram
+          </div>
+        `;
+        contactInfo.appendChild(telegramDiv);
+        
+        // Add click handler for Telegram button
+        document.getElementById('sendTelegramBtn').addEventListener('click', async function() {
+          const messageInput = document.getElementById('telegramMessage');
+          const message = messageInput.value.trim();
+          
+          if (!message) {
+            showToast('Please enter a message! 📝');
+            return;
+          }
+          
+          // Show loading state
+          const btn = this;
+          const originalHTML = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+          btn.disabled = true;
+          
+          try {
+            // Send message to Telegram
+            const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: `📬 *New Website Message*\n\nFrom: BraveVision Visitor\n\nMessage: ${message}\n\n[Sent via website contact form]`,
+                parse_mode: 'Markdown'
+              })
+            });
+            
+            const data = await response.json();
+            
+            if (data.ok) {
+              showToast('✅ Message sent to Telegram!');
+              messageInput.value = ''; // Clear input
+            } else {
+              throw new Error(data.description || 'Failed to send');
+            }
+          } catch (error) {
+            console.error('Telegram error:', error);
+            showToast('❌ Could not send. Please try email or WhatsApp.');
+          } finally {
+            // Restore button
+            btn.innerHTML = originalHTML;
+            btn.disabled = false;
+          }
+        });
+      }
+
+      // ========== TOAST NOTIFICATION FUNCTION ==========
+      const toast = document.getElementById('toast');
+      
+      window.showToast = function(message) {
+        if (toast) {
+          toast.textContent = message;
+          toast.classList.add('show');
+          
+          setTimeout(() => {
+            toast.classList.remove('show');
+          }, 3000);
+        }
+      }
+
+      // ========== MOBILE MENU FUNCTIONALITY ==========
+      const mobileNav = document.getElementById('mobileNav');
+      const hamburger = document.getElementById('hamburgerBtn');
+      const closeBtn = document.getElementById('closeNavBtn');
+      const overlay = document.getElementById('overlay');
+      const mobileLinks = document.querySelectorAll('.mobile-nav a:not(.creator-link)');
+
+      window.openMenu = function() {
+        if (mobileNav) mobileNav.classList.add('active');
+        if (overlay) overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      window.closeMenu = function() {
+        if (mobileNav) mobileNav.classList.remove('active');
+        if (overlay) overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      if (hamburger) hamburger.addEventListener('click', openMenu);
+      if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+      if (overlay) overlay.addEventListener('click', closeMenu);
+
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          closeMenu();
+        });
+      });
+
+      // ========== THEME TOGGLE ==========
+      const themeToggle = document.getElementById('themeToggle');
+      
+      if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+          document.body.classList.toggle('light');
+          const icon = this.querySelector('i');
+          
+          if (document.body.classList.contains('light')) {
+            icon.className = 'fas fa-sun';
+          } else {
+            icon.className = 'fas fa-moon';
+          }
+        });
+      }
+
+      // ========== CONTACT TOGGLE FUNCTIONALITY ==========
+      const contactContainer = document.getElementById('contactContainer');
+      const revealBtn = document.getElementById('contactRevealBtn');
+
+      window.toggleContact = function(forceOpen = null) {
+        if (forceOpen === true) {
+          contactContainer.classList.add('active');
+        } else if (forceOpen === false) {
+          contactContainer.classList.remove('active');
+        } else {
+          contactContainer.classList.toggle('active');
+        }
+      }
+
+      // ========== PAGE NAVIGATION ==========
+      const mainContent = document.getElementById('mainContent');
+      const creatorPage = document.getElementById('creatorPage');
+
+      window.showMainContent = function() {
+        mainContent.classList.remove('hidden');
+        creatorPage.classList.remove('active');
+        // Close contact container when going back to main content
+        if (contactContainer) contactContainer.classList.remove('active');
+        window.scrollTo(0, 0);
+      }
+
+      window.showCreatorProfile = function() {
+        mainContent.classList.add('hidden');
+        creatorPage.classList.add('active');
+        window.scrollTo(0, 0);
+      }
+
+      window.scrollToSection = function(sectionId) {
+        setTimeout(() => {
+          const section = document.getElementById(sectionId);
+          if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 100);
+      }
+
+      // ========== EMAIL FORM SUBMISSION ==========
+      const contactForm = document.getElementById('contactForm');
+      
+      if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          const name = document.getElementById('name').value.trim();
+          const email = document.getElementById('email').value.trim();
+          const message = document.getElementById('message').value.trim();
+          
+          if (!name || !email || !message) {
+            showToast('Please fill all fields! ⚠️');
+            return;
+          }
+          
+          showToast('Opening Gmail... 📧');
+          
+          const subject = encodeURIComponent(`New project inquiry from ${name}`);
+          const body = encodeURIComponent(
+            `Name: ${name}\n` +
+            `Email: ${email}\n\n` +
+            `Message:\n${message}`
+          );
+          
+          const mailtoLink = `mailto:legateakanjimusab@gmail.com?subject=${subject}&body=${body}`;
+          
+          setTimeout(() => {
+            window.location.href = mailtoLink;
+          }, 500);
+        });
+      }
+
+      // ========== WHATSAPP BUTTON WITH TOAST ==========
+      const whatsappBtn = document.querySelector('.whatsapp');
+      
+      if (whatsappBtn) {
+        whatsappBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          showToast('Opening WhatsApp... 💬');
+          
+          setTimeout(() => {
+            window.open(this.href, '_blank');
+          }, 500);
+        });
+      }
+
+      // ========== FIX FOR LOGO IMAGE ERROR ==========
+      const logoImg = document.querySelector('.logo-img');
+      if (logoImg) {
+        logoImg.onerror = function() {
+          this.style.display = 'none';
+        };
+      }
+
+      // ========== CLOSE CONTACT WHEN CLICKING OUTSIDE ==========
+      document.addEventListener('click', function(e) {
+        if (contactContainer && contactContainer.classList.contains('active')) {
+          const isClickInsideContact = contactContainer.contains(e.target);
+          const isClickOnRevealBtn = revealBtn.contains(e.target);
+          
+          if (!isClickInsideContact && !isClickOnRevealBtn) {
+            contactContainer.classList.remove('active');
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
